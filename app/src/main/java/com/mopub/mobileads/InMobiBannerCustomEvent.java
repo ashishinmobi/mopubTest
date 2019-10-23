@@ -16,8 +16,6 @@ import com.inmobi.sdk.InMobiSdk;
 import com.mopub.common.DataKeys;
 import com.mopub.common.MoPub;
 import com.mopub.common.logging.MoPubLog;
-import com.mopub.mobileads.CustomEventBanner;
-import com.mopub.mobileads.MoPubErrorCode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +39,7 @@ public class InMobiBannerCustomEvent extends CustomEventBanner {
 
     private final AdSize BANNER = new AdSize(320, 50);
     private final AdSize MEDIUM_RECTANGLE = new AdSize(300, 250);
-    private final AdSize LEADER_BOARD = new AdSize(728,90);
+    private final AdSize LEADER_BOARD = new AdSize(728, 90);
     private InMobiBanner imbanner;
 
     @Override
@@ -60,15 +58,15 @@ public class InMobiBannerCustomEvent extends CustomEventBanner {
             final JSONObject localParmas = new JSONObject(localExtras);
             adWidth = localParmas.getInt(DataKeys.AD_WIDTH);
             adHeight = localParmas.getInt(DataKeys.AD_HEIGHT);
-            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,TAG, String.valueOf(placementId));
-            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,TAG, accountId);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM, TAG, String.valueOf(placementId));
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM, TAG, accountId);
 
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
 
         final JSONObject gdprJson = new JSONObject();
-        if( InMobiGDPR.isConsentUpdated() ){
+        if (InMobiGDPR.isConsentUpdated()) {
             try {
                 gdprJson.put(IM_GDPR_CONSENT_AVAILABLE, InMobiGDPR.getConsent());
                 gdprJson.put("gdpr", InMobiGDPR.isGDPR());
@@ -108,7 +106,7 @@ public class InMobiBannerCustomEvent extends CustomEventBanner {
             @Override
             public void onAdLoadSucceeded(final InMobiBanner inMobiBanner) {
                 super.onAdLoadSucceeded(inMobiBanner);
-                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,TAG, "InMobi banner ad loaded successfully.");
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM, TAG, "InMobi banner ad loaded successfully.");
                 if (mBannerListener != null) {
                     if (inMobiBanner != null) {
                         mBannerListener.onBannerLoaded(inMobiBanner);
@@ -121,7 +119,7 @@ public class InMobiBannerCustomEvent extends CustomEventBanner {
 
             @Override
             public void onAdLoadFailed(final InMobiBanner inMobiBanner,
-                    final InMobiAdRequestStatus inMobiAdRequestStatus) {
+                                       final InMobiAdRequestStatus inMobiAdRequestStatus) {
                 super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
                 MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM, TAG, "Ad failed to load");
 
@@ -177,7 +175,7 @@ public class InMobiBannerCustomEvent extends CustomEventBanner {
 
             @Override
             public void onRewardsUnlocked(InMobiBanner ad, Map<Object, Object> rewards) {
-                super.onRewardsUnlocked(ad,rewards);
+                super.onRewardsUnlocked(ad, rewards);
                 MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM, TAG, "Ad rewarded");
             }
         });
@@ -211,7 +209,7 @@ public class InMobiBannerCustomEvent extends CustomEventBanner {
             return BANNER;
         } else if (width <= 300 && height <= 250) {
             return MEDIUM_RECTANGLE;
-        } else if (width <= 728 && height <= 90){
+        } else if (width <= 728 && height <= 90) {
             return LEADER_BOARD;
         } else {
             return null;
