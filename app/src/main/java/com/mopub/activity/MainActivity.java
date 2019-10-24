@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mMopubInterstitialView.load();
     }
 
-    public  void showInterstitial() {
-        Log.d(TAG,"showing the interstital ad");
+    public void showInterstitial(View view) {
+        Log.d(TAG,"showing the interstitial ad");
         if (mMopubInterstitialView != null && mMopubInterstitialView.isReady()) {
             mMopubInterstitialView.show();
         }
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getInterstitialAd();
                 break;
             case R.id.btnShowInterstitial:
-                showInterstitial();
+                showInterstitial(findViewById(R.id.linearlayout));
                 break;
             default:
                 showNotImplementedToast();
