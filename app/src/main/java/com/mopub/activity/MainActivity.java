@@ -28,9 +28,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MoPubView mMopubBannerView;
     private MoPubInterstitial mMopubInterstitialView;
     public static final String TAG = MainActivity.class.getName();
+    private static final String JSAC_BANNER_UNIT_ID = "0e59d9264f394e3983875e8919c93634";
     private String moPubBannerUnitIdFromSampleCode = "b5d5342405c545e5bff88b75ae8d58e5";
-    private String moPubBannerUnitId = "f56c4e1df786486e90b9ad31b53f86d7";
+    private String moPubBannerUnitId = "1eb8e147d56c489b9ca1e6c4aceb4941";
     private final String interstitialAdId = "597752c10f8e49a2bb59ab4dc6b25247";
+    private final String banner_id_harshit = "0a728f5665f54cd8b85b1940160311ff";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadBannerAd() {
         mMopubBannerView = findViewById(R.id.bannerview);
-        mMopubBannerView.setAdUnitId(moPubBannerUnitIdFromSampleCode);
+        mMopubBannerView.setAdUnitId(moPubBannerUnitId);
         mMopubBannerView.setBannerAdListener(this);
         mMopubBannerView.setAutorefreshEnabled(false);
     }
 
 
     private void setMoPubSDK() {
-        SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(moPubBannerUnitIdFromSampleCode)
+        SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(moPubBannerUnitId)
                 .withLogLevel(DEBUG)
                 .withMediatedNetworkConfiguration(InMobiAdapterConfiguration.class.getName(), new HashMap<String, String>())
                 .withAdditionalNetwork(InMobiAdapterConfiguration.class.getName())

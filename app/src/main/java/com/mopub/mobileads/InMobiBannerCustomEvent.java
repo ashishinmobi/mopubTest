@@ -51,6 +51,9 @@ public class InMobiBannerCustomEvent extends CustomEventBanner {
 
         try {
             final JSONObject serverParams = new JSONObject(serverExtras);
+            //placementId = 1561997152117l;
+            //accountId = "ef4229cea65a4322893a7e026a71865a";
+
             accountId = serverParams.getString("accountid");
             placementId = serverParams.getLong("placementid");
 
