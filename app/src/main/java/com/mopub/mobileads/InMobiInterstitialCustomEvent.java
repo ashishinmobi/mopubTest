@@ -4,6 +4,7 @@ import static com.inmobi.sdk.InMobiSdk.IM_GDPR_CONSENT_AVAILABLE;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.inmobi.ads.InMobiAdRequestStatus;
 import com.inmobi.ads.InMobiAdRequestStatus.StatusCode;

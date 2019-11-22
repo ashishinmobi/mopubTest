@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.inmobi.fossil.R;
 import com.inmobi.sdk.InMobiSdk;
 import com.mopub.common.MoPub;
@@ -31,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String JSAC_BANNER_UNIT_ID = "0e59d9264f394e3983875e8919c93634";
     private String moPubBannerUnitIdFromSampleCode = "b5d5342405c545e5bff88b75ae8d58e5";
     private String moPubBannerUnitId = "1eb8e147d56c489b9ca1e6c4aceb4941";
-    private final String interstitialAdId = "597752c10f8e49a2bb59ab4dc6b25247";
-    private final String banner_id_harshit = "0a728f5665f54cd8b85b1940160311ff";
+    private final String interstitialAdId = "e2c721614b2f43b4953e358d60e84e99";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .withAdditionalNetwork(InMobiAdapterConfiguration.class.getName())
                 .build();
 
-        MoPub.initializeSdk(this, sdkConfiguration, initSdkListener());}
+        MoPub.initializeSdk(this, sdkConfiguration, initSdkListener());
+    }
 
 
     private SdkInitializationListener initSdkListener() {
         return new SdkInitializationListener() {
-
             @Override
             public void onInitializationFinished() {
                 Log.d(TAG, "SDK initialized.");
@@ -87,9 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showInterstitial(View view) {
-        Log.d(TAG,"showing the interstitial ad");
+        Log.d(TAG, "showing the interstitial ad");
         if (mMopubInterstitialView != null && mMopubInterstitialView.isReady()) {
             mMopubInterstitialView.show();
+        } else {
+            Snackbar.make(findViewById(R.id.linearlayout), "Interstitial Ad is not loaded. Please load it first.", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -110,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 showNotImplementedToast();
                 break;
-
         }
     }
 
@@ -126,12 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBannerFailed(MoPubView banner, MoPubErrorCode errorCode) {
         Log.d(TAG, errorCode.toString() + " -> " + errorCode.name());
-
     }
 
     @Override
     public void onBannerClicked(MoPubView banner) {
-
     }
 
     @Override
@@ -147,27 +146,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onInterstitialLoaded(MoPubInterstitial interstitial) {
         Log.v(TAG, "Interstitial ad loaded successfully.");
+        setInterstitialAdStatus("Interstitial ad loaded successfully");
+    }
+
+    private void setInterstitialAdStatus(String message) {
         TextView interstitialTextView = findViewById(R.id.textView);
-        interstitialTextView.setText("Interstitial ad loaded successfully");
+        interstitialTextView.setText(message);
     }
 
     @Override
     public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
         Log.v(TAG, "Interstitial ad failed with ErrorCode " + errorCode.toString());
+        setInterstitialAdStatus("");
     }
 
     @Override
     public void onInterstitialShown(MoPubInterstitial interstitial) {
         Log.v(TAG, "Interstitial ad Shown");
+        setInterstitialAdStatus("");
     }
 
     @Override
     public void onInterstitialClicked(MoPubInterstitial interstitial) {
         Log.v(TAG, "Interstitial ad Clicked.");
+        setInterstitialAdStatus("");
     }
 
     @Override
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
         Log.v(TAG, "Interstitial ad Dismissed.");
+        setInterstitialAdStatus("");
     }
 }
