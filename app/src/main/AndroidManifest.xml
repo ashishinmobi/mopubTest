@@ -11,11 +11,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
 
     <!--WRITE_EXTERNAL_STORAGE is optional and only required for MRAID 2.0 storePicture ads.-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
+        android:name="com.mopub.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,7 +32,9 @@
             android:value="true" />
 
 
-        <activity android:name="com.mopub.activity.MainActivity">
+        <activity
+            android:name="com.mopub.activity.MainActivity"
+            android:showOnLockScreen="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,6 +71,18 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <service
+            android:name="com.mopub.service.ScreenOnOffService">
+        </service>
+
+        <receiver android:name="My"  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

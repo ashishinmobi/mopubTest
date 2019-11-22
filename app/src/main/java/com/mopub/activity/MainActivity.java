@@ -1,8 +1,13 @@
 package com.mopub.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.inmobi.fossil.R;
 import com.inmobi.sdk.InMobiSdk;
+import com.mopub.broadcastReceiver.ScreenOffOnReceiver;
 import com.mopub.common.MoPub;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
@@ -38,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
         setMoPubSDK();
         loadBannerAd();
         InMobiSdk.setLogLevel(InMobiSdk.LogLevel.DEBUG);
@@ -45,6 +55,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnRefreshAd.setOnClickListener(this);
         findViewById(R.id.btnLoadInterstitial).setOnClickListener(this);
         findViewById(R.id.btnShowInterstitial).setOnClickListener(this);
+
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleScreenOn();
+            }
+        }, new IntentFilter(ScreenOffOnReceiver.SCREEN_ON));
+
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleScreenOff();
+            }
+        }, new IntentFilter(ScreenOffOnReceiver.SCREEN_OFF));
+
+    }
+
+    private void handleScreenOff() {
+        Log.d(TAG, "Screen has been switched off..");
+        getInterstitialAd();
+    }
+
+    private void handleScreenOn() {
+        Log.d(TAG, "Screen has been switched On....");
+       showInterstitial();
     }
 
     private void loadBannerAd() {
@@ -53,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mMopubBannerView.setBannerAdListener(this);
         mMopubBannerView.setAutorefreshEnabled(false);
     }
-
 
     private void setMoPubSDK() {
         SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(moPubBannerUnitId)
@@ -81,12 +115,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getInterstitialAd() {
-        mMopubInterstitialView = new MoPubInterstitial(this, interstitialAdId);
-        mMopubInterstitialView.setInterstitialAdListener(this);
-        mMopubInterstitialView.load();
+        if (mMopubInterstitialView != null && mMopubInterstitialView.isReady()) {
+            Snackbar.make(findViewById(R.id.linearlayout), "Interstitial Ad already loaded", Snackbar.LENGTH_SHORT).show();
+            Log.d(TAG, "Interstitial Ad already loaded");
+        } else {
+            Log.d(TAG, "Loading Interstitial Ad......");
+            mMopubInterstitialView = new MoPubInterstitial(this, interstitialAdId);
+            mMopubInterstitialView.setInterstitialAdListener(this);
+            mMopubInterstitialView.load();
+        }
     }
 
-    public void showInterstitial(View view) {
+    public void showInterstitial() {
         Log.d(TAG, "showing the interstitial ad");
         if (mMopubInterstitialView != null && mMopubInterstitialView.isReady()) {
             mMopubInterstitialView.show();
@@ -107,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getInterstitialAd();
                 break;
             case R.id.btnShowInterstitial:
-                showInterstitial(findViewById(R.id.linearlayout));
+                showInterstitial();
                 break;
             default:
                 showNotImplementedToast();
