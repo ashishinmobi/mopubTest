@@ -10,3 +10,4 @@ Can you please assist in creating a lock screen app that uses MoPub mediation? T
 3) When the user turns on screen, MoPub should then show the ad on the lock screen. 
 
 You can use this MoPub interstital ad unit: 397ad5cfc2474cebbab004aadd68192f
+Mopub banner ad unit : 1eb8e147d56c489b9ca1e6c4aceb4941
