@@ -13,7 +13,6 @@ import com.mopub.broadcastReceiver.ScreenOffOnReceiver;
 
 public class ScreenOnOffService extends Service {
     private final String TAG = ScreenOnOffService.class.getSimpleName();
-    private final String SCREEN_ON_OFF_SER = "screen on off service";
     private BroadcastReceiver br;
 
     @Nullable
@@ -30,19 +29,16 @@ public class ScreenOnOffService extends Service {
         br = new ScreenOffOnReceiver();
 
         IntentFilter filter = new IntentFilter();
-
         filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-
         registerReceiver(br, filter);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "ScreenOnOffService has been started.");
         return super.onStartCommand(intent, flags, startId);
     }
 

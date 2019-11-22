@@ -12,7 +12,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "Starting ScreenOnOffService from Application class..");
         Intent i = new Intent(this, ScreenOnOffService.class);
         startService(i);
     }
