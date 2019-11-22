@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String moPubBannerUnitIdFromSampleCode = "b5d5342405c545e5bff88b75ae8d58e5";
     private String moPubBannerUnitId = "1eb8e147d56c489b9ca1e6c4aceb4941";
     private final String interstitialAdId = "e2c721614b2f43b4953e358d60e84e99";
+    private final String timInterstetialAd = "397ad5cfc2474cebbab004aadd68192f";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleScreenOn() {
         Log.d(TAG, "Screen has been switched On....");
-       showInterstitial();
+        refreshAd();
+        showInterstitial();
     }
 
     private void loadBannerAd() {
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "Interstitial Ad already loaded");
         } else {
             Log.d(TAG, "Loading Interstitial Ad......");
-            mMopubInterstitialView = new MoPubInterstitial(this, interstitialAdId);
+            mMopubInterstitialView = new MoPubInterstitial(this, timInterstetialAd);
             mMopubInterstitialView.setInterstitialAdListener(this);
             mMopubInterstitialView.load();
         }
@@ -216,5 +218,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
         Log.v(TAG, "Interstitial ad Dismissed.");
         setInterstitialAdStatus("");
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        super.onAttachedToWindow();
     }
 }

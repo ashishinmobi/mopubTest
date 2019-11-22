@@ -5,4 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="myTheme">
+        <item name="android:showOnLockScreen">true</item>
+        <item name="android:showWhenLocked">true</item>
+    </style>
+
 </resources>

@@ -9,7 +9,7 @@ public class ScreenOffOnReceiver extends BroadcastReceiver {
 
     private final String TAG = ScreenOffOnReceiver.class.getSimpleName();
     private final String SCREEN_OFF_INTENT = "android.intent.action.SCREEN_OFF";
-    private final String SCREEN_ON_INTENT = "android.intent.action.SCREEN_OFF";
+    private final String SCREEN_ON_INTENT = "android.intent.action.SCREEN_ON";
     public static final String SCREEN_OFF = "screen off";
     public static final String SCREEN_ON = "screen on";
 

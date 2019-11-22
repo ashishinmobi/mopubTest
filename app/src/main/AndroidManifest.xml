@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
 
     <!--WRITE_EXTERNAL_STORAGE is optional and only required for MRAID 2.0 storePicture ads.-->
@@ -54,19 +53,34 @@
 
         <!-- Interstitials -->
         <activity
+            android:showWhenLocked="true"
             android:name="com.mopub.mobileads.MoPubActivity"
+            android:showOnLockScreen="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="com.mopub.mobileads.MraidActivity"
+            android:showWhenLocked="true"
+            android:showOnLockScreen="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- Rewarded Video and Rewarded Playables -->
         <activity
             android:name="com.mopub.mobileads.RewardedMraidActivity"
+            android:showWhenLocked="true"
+            android:showOnLockScreen="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
+            android:showWhenLocked="true"
+            android:showOnLockScreen="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <activity android:name="com.inmobi.ads.rendering.InMobiAdActivity"
+            tools:replace="android:configChanges"
+            android:showWhenLocked="true"
+            android:showOnLockScreen="true"
+            android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize"
+            android:hardwareAccelerated="true" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -75,13 +89,6 @@
         <service
             android:name="com.mopub.service.ScreenOnOffService">
         </service>
-
-        <receiver android:name="My"  android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
-            </intent-filter>
-        </receiver>
 
     </application>
 
